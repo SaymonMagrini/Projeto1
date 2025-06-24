@@ -1,194 +1,159 @@
-(() => {
-  const quizData = [
-    { question: "Qual é o símbolo químico do ouro?", answer: "Au" },
-    { question: "Quem foi o primeiro homem a pisar na Lua?", answer: "Neil Armstrong" },
-    { question: "Qual país tem a maior população do mundo?", answer: "China" },
-    { question: "Em que ano ocorreu a queda do muro de Berlim?", answer: "1989" },
-    { question: "Qual a capital da Austrália?", answer: "Canberra" },
-    { question: "Quem escreveu 'A Odisséia'?", answer: "Homero" },
-    { question: "Qual é a fórmula química do sal de cozinha?", answer: "NaCl" },
-    { question: "Qual é a maior montanha do mundo?", answer: "Everest" },
-    { question: "Quem pintou 'O Grito'?", answer: "Edvard Munch" },
-    { question: "Qual é o maior oceano da Terra?", answer: "Oceano Pacífico" },
-    { question: "Qual é a velocidade da luz no vácuo (em km/s)?", answer: "299792" },
-    { question: "Qual planeta é conhecido como o Planeta Vermelho?", answer: "Marte" },
-    { question: "Quem descobriu a penicilina?", answer: "Alexander Fleming" },
-    { question: "Qual é o idioma oficial do Brasil?", answer: "Português" },
-    { question: "Qual animal é conhecido como o rei da selva?", answer: "Leão" }
-  ];
+    const questions = [
+      {
+        question: "Qual é a capital do Brasil?",
+        options: {
+          a: "São Paulo",
+          b: "Rio de Janeiro",
+          c: "Brasília",
+          d: "Salvador"
+        },
+        correct: "c"
+      },
+      {
+        question: "Quem escreveu 'Dom Casmurro'?",
+        options: {
+          a: "Machado de Assis",
+          b: "José de Alencar",
+          c: "Clarice Lispector",
+          d: "Monteiro Lobato"
+        },
+        correct: "a"
+      },
+      {
+        question: "Quanto é 7 x 8?",
+        options: {
+          a: "54",
+          b: "56",
+          c: "64",
+          d: "58"
+        },
+        correct: "b"
+      },
+      {
+        question: "Qual o maior planeta do sistema solar?",
+        options: {
+          a: "Terra",
+          b: "Saturno",
+          c: "Júpiter",
+          d: "Marte"
+        },
+        correct: "c"
+      },
+      {
+        question: "Quem pintou a Mona Lisa?",
+        options: {
+          a: "Michelangelo",
+          b: "Leonardo da Vinci",
+          c: "Pablo Picasso",
+          d: "Vincent Van Gogh"
+        },
+        correct: "b"
+      }
+    ];
 
-  function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
+    let currentQuestion = 0;
+    let selectedOption = '';
+    const questionNumberEl = document.getElementById('questionNumber');
+    const questionTextEl = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const feedbackEl = document.getElementById('feedback');
+    const actionButton = document.getElementById('actionButton');
 
-window.shuffleArray = shuffleArray
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      questionNumberEl.textContent = `Pergunta ${currentQuestion + 1} / ${questions.length}`;
+      questionTextEl.textContent = q.question;
 
-  let questions = shuffleArray([...quizData]); // todas as perguntas embaralhadas
-  let currentIndex = 0;
-  let score = 0;
+      optionsContainer.innerHTML = '';
+      feedbackEl.textContent = '';
+      actionButton.disabled = true;
+      selectedOption = '';
 
-  const quiz = document.getElementById('quiz');
-  let questionNumber = document.getElementById('questionNumber');
-  let questionText = document.getElementById('questionText');
-  let answerInput = document.getElementById('answerInput');
-  let feedback = document.getElementById('feedback');
-  let actionButton = document.getElementById('actionButton');
+      for (const key in q.options) {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        optionDiv.dataset.option = key;
+        optionDiv.textContent = `${key.toUpperCase()}: ${q.options[key]}`;
 
-  function normalizeText(text) {
-    return text.toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\s]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
+        optionDiv.addEventListener('click', () => {
+          document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+          optionDiv.classList.add('selected');
+          selectedOption = key;
+          actionButton.disabled = false;
+        });
 
-  window.normalizeText = normalizeText //Globalizando a função
-
-  function isAnswerClose(userAnswer, correctAnswer, question) {
-    const normalizedUser = normalizeText(userAnswer);
-    const normalizedCorrect = normalizeText(correctAnswer);
-
-    // Bloqueia respostas muito curtas
-    if (normalizedUser.length < 2) return false;
-
-    const stopWords = ['oceano', 'planeta', 'monte', 'monte', 'rio', 'lago', 'mar', 'o', 'a', 'de', 'do', 'da', 'dos', 'das', 'e', 'em'];
-
-    function cleanStopWords(text) {
-      return text.split(' ').filter(w => !stopWords.includes(w)).join(' ');
-    }
-
-    const cleanedUser = cleanStopWords(normalizedUser);
-    const cleanedCorrect = cleanStopWords(normalizedCorrect);
-
-    if (cleanedUser.includes(cleanedCorrect) || cleanedCorrect.includes(cleanedUser)) {
-      return true;
-    }
-
-    // Tratamento especial para números (velocidade da luz)
-    if (question.toLowerCase().includes("velocidade da luz")) {
-      const numUser = parseFloat(normalizedUser.replace(/[^\d\.]/g, ''));
-      const numCorrect = parseFloat(normalizedCorrect.replace(/[^\d\.]/g, ''));
-      if (!isNaN(numUser) && !isNaN(numCorrect)) {
-        return Math.abs(numUser - numCorrect) < 1000;
+        optionsContainer.appendChild(optionDiv);
       }
     }
 
-    return false;
-  }
+    function checkAnswer() {
+      const q = questions[currentQuestion];
 
-  window.isAnswerClose = isAnswerClose //Globalizando a função
+      const correctOption = q.correct;
+      const allOptions = document.querySelectorAll('.option');
 
-  let awaitingConfirmation = true;
+      allOptions.forEach(opt => {
+        if (opt.dataset.option === correctOption) {
+          opt.classList.add('correct');
+        } else if (opt.dataset.option === selectedOption) {
+          opt.classList.add('incorrect');
+        }
+        opt.classList.remove('selected');
+      });
 
-  function loadQuestion() {
-    awaitingConfirmation = true;
-    actionButton.disabled = true;
-    feedback.textContent = "";
-    feedback.className = "feedback";
-    answerInput.disabled = false;
-    answerInput.value = "";
-    answerInput.className = "";
-    questionNumber.textContent = `Pergunta ${currentIndex + 1} / ${questions.length}`;
-    questionText.textContent = questions[currentIndex].question;
-    actionButton.textContent = "Confirmar";
-    answerInput.focus();
-  }
-
-  function checkInput() {
-    actionButton.disabled = answerInput.value.trim().length < 1;
-  }
-
-  function confirmOrNext() {
-    const userAnswer = answerInput.value.trim();
-    const correctAnswer = questions[currentIndex].answer;
-    const question = questions[currentIndex].question;
-
-    if (awaitingConfirmation) {
-      if (isAnswerClose(userAnswer, correctAnswer, question)) {
-        score++;
-        feedback.textContent = "Resposta correta! 🎉";
-        feedback.classList.add('correct');
-        answerInput.classList.add('correct');
+      if (selectedOption === correctOption) {
+        feedbackEl.textContent = '✔️ Resposta correta!';
+        feedbackEl.className = 'feedback correct';
       } else {
-        feedback.textContent = `Resposta incorreta. A resposta correta é: "${correctAnswer}".`;
-        feedback.classList.add('incorrect');
-        answerInput.classList.add('incorrect');
-        // Debug no console para falhas
-        console.log(`Pergunta: "${question}"`);
-        console.log(`Resposta correta: "${correctAnswer}"`);
-        console.log(`Sua resposta: "${userAnswer}"`);
+        feedbackEl.textContent = `❌ Errado! Resposta correta: ${correctOption.toUpperCase()}`;
+        feedbackEl.className = 'feedback incorrect';
       }
-      actionButton.textContent = currentIndex === questions.length - 1 ? "Ver Resultado" : "Próxima Pergunta";
-      awaitingConfirmation = false;
-      answerInput.disabled = true;
-      actionButton.disabled = false;
-    } else {
-      currentIndex++;
-      if (currentIndex < questions.length) {
+
+      actionButton.textContent = currentQuestion < questions.length - 1 ? 'Próxima' : 'Finalizar';
+      actionButton.onclick = nextQuestion;
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
         loadQuestion();
+        actionButton.textContent = 'Confirmar';
+        actionButton.onclick = checkAnswer;
       } else {
         showResult();
       }
     }
-  }
 
-  actionButton.addEventListener('click', confirmOrNext);
-  answerInput.addEventListener('input', checkInput);
-  answerInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !actionButton.disabled) {
-      e.preventDefault();
-      confirmOrNext();
+    function showResult() {
+      document.getElementById('quiz').innerHTML = `
+        <div class="result">
+          <h2>Quiz Finalizado!</h2>
+          <p>Você concluiu ${questions.length} perguntas.</p>
+          <button onclick="restartQuiz()">Reiniciar</button>
+        </div>
+      `;
     }
-  });
 
-  function showResult() {
-    const totalQuestions = questions.length;
-    const finalScore = ((score / totalQuestions) * 10).toFixed(2);
-
-    quiz.innerHTML = `
-      <div class="result">
-        <h2>Quiz finalizado!</h2>
-        <p>Sua pontuação: ${finalScore} / 10</p>
-        <button id="restartButton">Recomeçar</button>
-      </div>
-    `;
-
-    document.getElementById('restartButton').addEventListener('click', () => {
-      questions = shuffleArray([...quizData]);
-      currentIndex = 0;
-      score = 0;
-      quiz.innerHTML = `
-        <div class="question-number" id="questionNumber">Pergunta 1 / ${questions.length}</div>
+    function restartQuiz() {
+      currentQuestion = 0;
+      document.getElementById('quiz').innerHTML = `
+        <div class="question-number" id="questionNumber"></div>
         <h1 class="question" id="questionText">Carregando...</h1>
-        <label for="answerInput">Sua resposta:</label>
-        <input type="text" id="answerInput" autocomplete="off" spellcheck="false" />
+        <div class="options" id="optionsContainer"></div>
         <div class="feedback" id="feedback"></div>
         <button id="actionButton" disabled>Confirmar</button>
       `;
-
-      // Rebind elements
-      questionNumber = document.getElementById('questionNumber');
-      questionText = document.getElementById('questionText');
-      answerInput = document.getElementById('answerInput');
-      feedback = document.getElementById('feedback');
+      // Referenciar novamente os elementos
+      questionNumberEl = document.getElementById('questionNumber');
+      questionTextEl = document.getElementById('questionText');
+      optionsContainer = document.getElementById('optionsContainer');
+      feedbackEl = document.getElementById('feedback');
       actionButton = document.getElementById('actionButton');
 
-      actionButton.addEventListener('click', confirmOrNext);
-      answerInput.addEventListener('input', checkInput);
-      answerInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !actionButton.disabled) {
-          e.preventDefault();
-          confirmOrNext();
-        }
-      });
-
       loadQuestion();
-    });
-  }
+      actionButton.onclick = checkAnswer;
+    }
 
-  loadQuestion();
-})();
+    // Inicializar
+    loadQuestion();
+    actionButton.onclick = checkAnswer;
