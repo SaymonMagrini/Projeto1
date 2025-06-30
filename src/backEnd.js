@@ -251,27 +251,44 @@ const questions = [
   }
 ];
 
-let currentQuiz = null;
+
+const quizContainer = document.getElementById('quizContainer');
+const quizTitle = document.getElementById('quizTitle');
+const questionText = document.getElementById('questionText');
+const questionCount = document.getElementById('questionCount');
+const optionsContainer = document.getElementById('optionsContainer');
+const nextButton = document.getElementById('nextButton');
+const restartButton = document.getElementById('restartButton');
+const backButton = document.getElementById('backButton');
+
 let currentQuestion = 0;
 let score = 0;
-function startQuiz(bookKey) {
+
+// Para simplificar, vamos definir currentQuiz com o objeto:
+const currentQuiz = {
+  title: 'Quiz Geral de Literatura',
+  questions: questions
+};
+
+function startQuiz() {
   currentQuestion = 0;
   score = 0;
-  bookSelection.classList.add('hidden');
   quizContainer.classList.remove('hidden');
   quizTitle.textContent = currentQuiz.title;
-  result.innerHTML = "";
+  result.innerHTML = '';
   restartButton.classList.add('hidden');
   backButton.classList.remove('hidden');
   nextButton.classList.remove('hidden');
   loadQuestion();
 }
+
 function loadQuestion() {
   const q = currentQuiz.questions[currentQuestion];
   questionText.textContent = q.question;
-  questionCount.textContent = `Questão ${currentQuestion + 1} de  ${currentQuiz.question.length}`;
-  optionsContainer.innerHTML = "";
+  questionCount.textContent = `Questão ${currentQuestion + 1} de ${currentQuiz.questions.length}`;
+  optionsContainer.innerHTML = '';
   nextButton.disabled = true;
+
   q.options.forEach((option, index) => {
     const btn = document.createElement('button');
     btn.classList.add('option');
@@ -280,10 +297,12 @@ function loadQuestion() {
     optionsContainer.appendChild(btn);
   });
 }
+
 function selectAnswer(button, selectedIndex) {
   const q = currentQuiz.questions[currentQuestion];
   const buttons = document.querySelectorAll('.option');
   buttons.forEach(btn => btn.disabled = true);
+
   if (selectedIndex === q.correct) {
     button.classList.add('correct');
     score++;
@@ -293,6 +312,7 @@ function selectAnswer(button, selectedIndex) {
   }
   nextButton.disabled = false;
 }
+
 nextButton.onclick = () => {
   currentQuestion++;
   if (currentQuestion < currentQuiz.questions.length) {
@@ -301,24 +321,34 @@ nextButton.onclick = () => {
     showResult();
   }
 };
+
 function showResult() {
-  questionText.textContent = "Você completou o quiz!";
-  questionCount.textContent = "";
-  optionsContainer.innerHTML = "";
+  questionText.textContent = 'Você completou o quiz!';
+  questionCount.textContent = '';
+  optionsContainer.innerHTML = '';
   nextButton.classList.add('hidden');
-  result.innerHTML = `✅ Você acertou <strong>${score}</strong> de  <strong>${currentQuiz.questions.length}</strong> perguntas.`; restartButton.classList.remove('hidden');
+  result.innerHTML = `✅ Você acertou <strong>${score}</strong> de <strong>${currentQuiz.questions.length}</strong> perguntas.`;
+  restartButton.classList.remove('hidden');
   backButton.classList.add('hidden');
 }
+
 restartButton.onclick = () => {
   currentQuestion = 0;
   score = 0;
   loadQuestion();
-  result.innerHTML = "";
+  result.innerHTML = '';
   restartButton.classList.add('hidden');
   nextButton.classList.remove('hidden');
   backButton.classList.remove('hidden');
 };
+
 backButton.onclick = () => {
-  quizContainer.classList.add('hidden'); bookSelection.classList.remove('hidden'); result.innerHTML = "";
-  restartButton.classList.add('hidden'); nextButton.classList.remove('hidden'); backButton.classList.add('hidden');
-}; 
+  quizContainer.classList.add('hidden');
+  // Aqui você pode mostrar a seleção de livros se quiser
+  result.innerHTML = '';
+  restartButton.classList.add('hidden');
+  nextButton.classList.remove('hidden');
+  backButton.classList.add('hidden');
+};
+
+startQuiz();
