@@ -250,43 +250,47 @@ const questions = [
     correct: 3
   }
 ];
+// Seu array questions (já definido)...
 
+// Função para embaralhar
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
-const quizContainer = document.getElementById('quizContainer');
-const quizTitle = document.getElementById('quizTitle');
-const questionText = document.getElementById('questionText');
-const questionCount = document.getElementById('questionCount');
-const optionsContainer = document.getElementById('optionsContainer');
-const nextButton = document.getElementById('nextButton');
-const restartButton = document.getElementById('restartButton');
-const backButton = document.getElementById('backButton');
+let questoesEmbaralhadas = shuffleArray(questions).slice(0, 10);
 
 let currentQuestion = 0;
 let score = 0;
 
-// Para simplificar, vamos definir currentQuiz com o objeto:
-const currentQuiz = {
-  title: 'Quiz Geral de Literatura',
-  questions: questions
-};
+const quizContainer = document.getElementById('quizContainer');
+const questionText = document.getElementById('questionText');
+const questionCount = document.getElementById('questionCount');
+const optionsContainer = document.getElementById('optionsContainer');
+const nextButton = document.getElementById('nextButton');
+const result = document.getElementById('result');
+const restartButton = document.getElementById('restartButton');
+const quizTitle = document.getElementById('quizTitle');
 
 function startQuiz() {
   currentQuestion = 0;
   score = 0;
   quizContainer.classList.remove('hidden');
-  quizTitle.textContent = currentQuiz.title;
-  result.innerHTML = '';
+  quizTitle.textContent = "Quiz Geral"; // título fixo, pois não tem seleção
+  result.innerHTML = "";
   restartButton.classList.add('hidden');
-  backButton.classList.remove('hidden');
   nextButton.classList.remove('hidden');
   loadQuestion();
 }
 
 function loadQuestion() {
-  const q = currentQuiz.questions[currentQuestion];
+  const q = questoesEmbaralhadas[currentQuestion];
   questionText.textContent = q.question;
-  questionCount.textContent = `Questão ${currentQuestion + 1} de ${currentQuiz.questions.length}`;
-  optionsContainer.innerHTML = '';
+  questionCount.textContent = `Questão ${currentQuestion + 1} de ${questoesEmbaralhadas.length}`;
+  optionsContainer.innerHTML = "";
   nextButton.disabled = true;
 
   q.options.forEach((option, index) => {
@@ -299,7 +303,7 @@ function loadQuestion() {
 }
 
 function selectAnswer(button, selectedIndex) {
-  const q = currentQuiz.questions[currentQuestion];
+  const q = questoesEmbaralhadas[currentQuestion];
   const buttons = document.querySelectorAll('.option');
   buttons.forEach(btn => btn.disabled = true);
 
@@ -310,45 +314,31 @@ function selectAnswer(button, selectedIndex) {
     button.classList.add('incorrect');
     buttons[q.correct].classList.add('correct');
   }
+
   nextButton.disabled = false;
 }
 
 nextButton.onclick = () => {
   currentQuestion++;
-  if (currentQuestion < currentQuiz.questions.length) {
+  if (currentQuestion < questoesEmbaralhadas.length) {
     loadQuestion();
   } else {
     showResult();
   }
 };
 
+restartButton.onclick = () => {
+  startQuiz();
+};
+
 function showResult() {
-  questionText.textContent = 'Você completou o quiz!';
-  questionCount.textContent = '';
-  optionsContainer.innerHTML = '';
+  questionText.textContent = "Você completou o quiz!";
+  questionCount.textContent = "";
+  optionsContainer.innerHTML = "";
   nextButton.classList.add('hidden');
-  result.innerHTML = `✅ Você acertou <strong>${score}</strong> de <strong>${currentQuiz.questions.length}</strong> perguntas.`;
+  result.innerHTML = `✅ Você acertou <strong>${score}</strong> de <strong>${questoesEmbaralhadas.length}</strong> perguntas.`;
   restartButton.classList.remove('hidden');
-  backButton.classList.add('hidden');
 }
 
-restartButton.onclick = () => {
-  currentQuestion = 0;
-  score = 0;
-  loadQuestion();
-  result.innerHTML = '';
-  restartButton.classList.add('hidden');
-  nextButton.classList.remove('hidden');
-  backButton.classList.remove('hidden');
-};
-
-backButton.onclick = () => {
-  quizContainer.classList.add('hidden');
-  // Aqui você pode mostrar a seleção de livros se quiser
-  result.innerHTML = '';
-  restartButton.classList.add('hidden');
-  nextButton.classList.remove('hidden');
-  backButton.classList.add('hidden');
-};
-
+// Inicia o quiz automaticamente ao carregar a página
 startQuiz();
