@@ -249,8 +249,7 @@ const questions = [
     options: ["A) É a irmã de Dante que o ajuda a escapar do Inferno", "B) É uma personagem mítica que guia Dante pelo Purgatório", "C) Representa a justiça divina e julga as almas condenadas", "D) Beatriz representa a inspiração divina e o amor espiritual"],
     correct: 3
   }
-];
-// Seu array questions (já definido)...
+];// Array das questões
 
 // Função para embaralhar
 function shuffleArray(arr) {
@@ -259,6 +258,21 @@ function shuffleArray(arr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}
+
+//função para gerar o cupom
+function gerarCupom() {
+  const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let codigo = '';
+  for (let i = 0; i < 10; i++) {
+    const randIndex = Math.floor(Math.random() * letras.length);
+    codigo += letras[randIndex];
+  }
+
+  const desconto = Math.min(score * 5, 50); // Usa a variável global score
+  const cupom = `${codigo}-${desconto}OFF`;
+
+  return cupom;
 }
 
 let questoesEmbaralhadas = shuffleArray(questions).slice(0, 10);
