@@ -1,65 +1,62 @@
-let selectedOption = null;
-
-function selectOption(option) {
-    selectedOption = option;
-    const btnConfirm = document.getElementById("actionButton");
-    btnConfirm.disabled = false;
-}
-
-function confirmAnswer() {
-    if (!selectedOption) throw new Error("Nenhuma opção selecionada");
-    const feedback = document.getElementById("feedback");
-
-    feedback.textContent = `Você escolheu a opção ${selectedOption}`;
-}
-
-function resetQuestion() {
-    selectedOption = null;
-    const btnConfirm = document.getElementById("actionButton");
-    btnConfirm.disabled = true;
-    const feedback = document.getElementById("feedback");
-    feedback.textContent = "";
-}
-
 function runUnitTests() {
-    testar("UNIT - selectOption deve setar opção e habilitar botão Confirmar", () => {
-        const btnConfirm = document.getElementById("actionButton");
-        btnConfirm.disabled = true;
-        selectOption("B");
-        if (selectedOption !== "B") throw new Error("Opção selecionada incorreta");
-        if (btnConfirm.disabled) throw new Error("Botão Confirmar não foi habilitado");
-    });
+    console.log("Iniciando testes unitários...");
 
-    testar("UNIT - confirmAnswer deve atualizar feedback com opção selecionada", () => {
-        const feedback = document.getElementById("feedback");
-        feedback.textContent = "";
-        selectedOption = "C";
-        confirmAnswer();
-        if (!feedback.textContent.includes("C")) throw new Error("Feedback não atualizado corretamente");
-    });
+    let passed = 0;
+    let failed = 0;
 
-    testar("UNIT - confirmAnswer lança erro se nenhuma opção selecionada", () => {
-        selectedOption = null;
-        let erroFoiLancado = false;
-        try {
-            confirmAnswer();
-        } catch (e) {
-            erroFoiLancado = true;
+    function assertEquals(actual, expected, testName) {
+        if (actual === expected) {
+            console.log(`✅ ${testName}`);
+            passed++;
+        } else {
+            console.error(`❌ ${testName} - Esperado: ${expected}, Recebido: ${actual}`);
+            failed++;
         }
-        if (!erroFoiLancado) throw new Error("Erro esperado não foi lançado");
-    });
+    }
 
-    testar("UNIT - resetQuestion deve limpar seleção, desabilitar botão e limpar feedback", () => {
-        selectedOption = "A";
-        const btnConfirm = document.getElementById("actionButton");
-        btnConfirm.disabled = false;
-        const feedback = document.getElementById("feedback");
-        feedback.textContent = "Mensagem";
+    function isCorrectAnswer(selected, correct) {
+        return selected === correct;
+    }
 
-        resetQuestion();
+    function getNextQuestionIndex(currentIndex, totalQuestions) {
+        return currentIndex + 1 < totalQuestions ? currentIndex + 1 : -1;
+    }
 
-        if (selectedOption !== null) throw new Error("selectedOption não foi resetado");
-        if (!btnConfirm.disabled) throw new Error("Botão Confirmar não foi desabilitado");
-        if (feedback.textContent !== "") throw new Error("Feedback não foi limpo");
-    });
+    function calculateScore(currentScore, isCorrect) {
+        return isCorrect ? currentScore + 1 : currentScore;
+    }
+
+    function restartQuizState() {
+        return {
+            currentQuestion: 0,
+            score: 0,
+            finished: false
+        };
+    }
+
+    function isQuizFinished(currentIndex, totalQuestions) {
+        return currentIndex >= totalQuestions;
+    }
+
+    // ====== Execução dos Testes ======
+
+    assertEquals(isCorrectAnswer("A", "A"), true, "Resposta correta retorna true");
+    assertEquals(isCorrectAnswer("B", "A"), false, "Resposta incorreta retorna false");
+
+    assertEquals(getNextQuestionIndex(0, 5), 1, "Próxima pergunta está correta");
+    assertEquals(getNextQuestionIndex(4, 5), -1, "Fim das perguntas retorna -1");
+
+    assertEquals(calculateScore(0, true), 1, "Acertou: adiciona 1 ponto");
+    assertEquals(calculateScore(1, false), 1, "Errou: mantém pontuação");
+
+    const reset = restartQuizState();
+    assertEquals(reset.currentQuestion, 0, "Reinício: pergunta = 0");
+    assertEquals(reset.score, 0, "Reinício: pontuação = 0");
+    assertEquals(reset.finished, false, "Reinício: finished = false");
+
+    // Teste 5: Fim do quiz
+    assertEquals(isQuizFinished(5, 5), true, "Quiz finalizado quando índice = total");
+    assertEquals(isQuizFinished(4, 5), false, "Quiz não finalizado antes do fim");
+
+    console.log(`Testes unitários concluídos. ✅ ${passed}, ❌ ${failed}`);
 }
