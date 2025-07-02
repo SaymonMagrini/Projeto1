@@ -5,22 +5,22 @@ const questions = [
     correct: 0
   },
   {
-    question: "Quem é chamada de ‘A Mãe dos Dragões’?",
+    question: "Quem é chamada de ‘A Mãe dos Dragões’, no livro Crônicas de Gelo e Fogo?",
     options: ["A) John Snow", "B) Daenerys Targaryen", "C) Tyrion Lannister", "D) Arya Stark"],
     correct: 1
   },
   {
-    question: "Qual é o nome do trono disputado?",
+    question: "Qual é o nome do trono disputado, no livro Crônicas de Gelo e Fogo?",
     options: ["A) Trono de Ferro", "B) Trono dos 7 Reinos", "C) Trono Real", "D) Trono das Lamentações"],
     correct: 0
   },
   {
-    question: "Como são chamados os dragões de Daenerys?",
+    question: "Como são chamados os dragões de Daenerys, no livro Crônicas de Gelo e Fogo?",
     options: ["A) Drogon, Balerion e Viserion", "B) Vhagar, Rhaegal e Viserion", "C) Rhaegal e Syrax; Drogon", "D) Drogon, Rhaegal e Viserion"],
     correct: 3
   },
   {
-    question: "Quem governa Winterfell?",
+    question: "Qual a família que governa Winterfell, no livro Crônicas de Gelo e Fogo?",
     options: ["A) Lannister", "B) Targaryen", "C) Stark", "D) Tully"],
     correct: 2
   },
@@ -55,22 +55,22 @@ const questions = [
     correct: 1
   },
   {
-    question: "Qual é o nome da protagonista?",
+    question: "Qual é o nome da protagonista, do livro A Biblioteca da Meia Noite?",
     options: ["A) Nora Seed", "B) Srª Elm", "C) Joe Seed", "D) Dan"],
     correct: 0
   },
   {
-    question: "Quando a biblioteca aparece?",
+    question: "Quando a biblioteca aparece, no livro A Biblioteca da Meia Noite?",
     options: ["A) Ao dormir", "B) Ao ser atropelada", "C) Após suicídio", "D) Ao ser assassinada"],
     correct: 2
   },
   {
-    question: "Temas do livro?",
+    question: "Temas do livro A Biblioteca da Meia Noite?",
     options: ["A) Morte, saúde mental, filosofia", "B) Romance, viagens", "C) Moda e beleza", "D) Mistério e espionagem"],
     correct: 0
   },
   {
-    question: "Quem orienta Nora Seed?",
+    question: "Quem orienta Nora Seed, no livro A Biblioteca da Meia Noite?",
     options: ["A) Dan", "B) Volts", "C) Ash", "D) Srª Elm"],
     correct: 3
   },
@@ -80,22 +80,22 @@ const questions = [
     correct: 0
   },
   {
-    question: "Quem é Lily Bloom na história?",
+    question: "Quem é Lily Bloom na história, do livro É Assim que Acaba?",
     options: ["A) A melhor amiga", "B) A irmã", "C) A protagonista", "D) A mãe"],
     correct: 2
   },
   {
-    question: "Profissão de Ryle?",
+    question: "Profissão de Ryle, no livro É Assim que Acaba?",
     options: ["A) Psicólogo", "B) Neurocirurgião", "C) Engenheiro", "D) Professor"],
     correct: 1
   },
   {
-    question: "Temas abordados?",
+    question: "Temas abordados, no livro É Assim que Acaba?",
     options: ["A) Política", "B) História", "C) Violência doméstica", "D) Carreira"],
     correct: 2
   },
   {
-    question: "Significado do título?",
+    question: "Significado do título, do livro 'É Assim que Acaba'?",
     options: ["A) Rompimento de amizade", "B) Interrupção do ciclo de abuso", "C) Descoberta pessoal", "D) Superação paterna"],
     correct: 1
   },
@@ -175,22 +175,22 @@ const questions = [
     correct: 3
   },
   {
-    question: "Quem é o autor de O Príncipe?",
+    question: "Quem é o autor do livro O Príncipe?",
     options: ["A) Dante Alighieri", "B) Arthur Conan Doyle", "C) Nicolau Maquiavel", "D) George R. R. Martin"],
     correct: 2
   },
   {
-    question: "A obra O Príncipe é dirigida a qual tipo de leitor?",
+    question: "A obra 'O Príncipe' é dirigida a qual tipo de leitor?",
     options: ["A) Aos governantes e aspirantes ao poder", "B) Aos religiosos", "C) Aos estudiosos", "D) Aos que creem em magia"],
     correct: 0
   },
   {
-    question: "Que conceito político é mais associado a Maquiavel?",
+    question: "Que conceito político é mais associado a Maquiavel, no livro O Príncipe?",
     options: ["A) Anarquismo político", "B) Liberalismo econômico", "C) Democracia direta", "D) Realismo político"],
     correct: 3
   },
   {
-    question: "Qual a visão do autor sobre manter o poder em O Príncipe?",
+    question: "Qual a visão do autor sobre manter o poder, no livro O Príncipe?",
     options: ["A) Defende que o governante deve usar todos os meios necessários, éticos ou não", "B) O governante deve sempre agir com bondade e seguir a Igreja", "C) O poder deve ser compartilhado igualmente entre todos os cidadãos", "D) Manter o poder depende exclusivamente da sorte e da vontade divina"],
     correct: 0
   },
@@ -200,7 +200,7 @@ const questions = [
     correct: 2
   },
   {
-    question: "Quem é o autor de A Metamorfose?",
+    question: "Quem é o autor do livro A Metamorfose?",
     options: ["A) Franz Kafka", "B) Dante Alighieri", "C) Matt Haig", "D) Nicolau Maquiavel"],
     correct: 0
   },
@@ -215,12 +215,12 @@ const questions = [
     correct: 2
   },
   {
-    question: "Qual é o clima predominante da narrativa de A Metamorfose?",
+    question: "Qual é o clima predominante da narrativa do livro A Metamorfose?",
     options: ["A) Aventura e mistério", "B) Angústia, opressão e alienação", "C) Alegria e celebração familiar", "D) Romance e esperança"],
     correct: 1
   },
   {
-    question: "Que metáforas podem ser associadas à metamorfose?",
+    question: "Que metáforas podem ser associadas ao livro A Metamorfose?",
     options: ["A) Ascensão ao poder político", "B) A descoberta de um tesouro escondido", "C) Uma transformação física que traz felicidade e sucesso", "D) Alienação social, perda de identidade e rejeição ao diferente"],
     correct: 3
   },
