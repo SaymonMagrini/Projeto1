@@ -1,175 +1,54 @@
-// componentTests.js
-(function (global) {
-  const { assertEqual, assertTrue, assertFalse } = global.TestLib;
+function runComponentTests() {
+    testar("COMPONENT - Container quiz-wrapper deve estar presente", () => {
+        const quiz = document.getElementById("quiz");
+        if (!quiz) throw new Error("Container do quiz não encontrado");
+    });
 
-  // Simulação básica do quiz
-  function QuizSimulator(questions) {
-    this.questions = questions;
-    this.currentIndex = 0;
-    this.score = 0;
-    this.awaitingConfirmation = true;
-  }
+    testar("COMPONENT - Número da pergunta deve estar visível e correto", () => {
+        const questionNumber = document.getElementById("questionNumber");
+        if (!questionNumber) throw new Error("Elemento questionNumber não encontrado");
+        if (!questionNumber.textContent.match(/Pergunta \d+ \/ \d+/))
+            throw new Error("Texto do número da pergunta inválido");
+    });
 
-  QuizSimulator.prototype.isAnswerClose = function (userAnswer, correctAnswer, question) {
-    const normalizedUser = normalizeText(userAnswer);
-    const normalizedCorrect = normalizeText(correctAnswer);
+    testar("COMPONENT - Texto da pergunta deve estar presente", () => {
+        const questionText = document.getElementById("questionText");
+        if (!questionText) throw new Error("Elemento questionText não encontrado");
+        if (questionText.textContent.trim() === "") throw new Error("Texto da pergunta está vazio");
+    });
 
-    if (normalizedUser === normalizedCorrect) return true;  // aceita igualdade exata
+    testar("COMPONENT - Deve haver 3 botões de opção com data-option correto", () => {
+        const options = document.querySelectorAll("#options .option-btn");
+        if (options.length !== 3) throw new Error("Deve haver 3 botões de opção");
 
-    if (normalizedUser.length < 2) return false;
+        const dataOptions = Array.from(options).map(btn => btn.getAttribute("data-option"));
+        const esperados = ["A", "B", "C"];
+        esperados.forEach(op => {
+            if (!dataOptions.includes(op)) throw new Error(`Botão com data-option="${op}" não encontrado`);
+        });
+    });
 
-    const stopWords = ['oceano', 'planeta', 'monte', 'rio', 'lago', 'mar', 'o', 'a', 'de', 'do', 'da', 'dos', 'das', 'e', 'em'];
+    testar("COMPONENT - Botões de opção aceitam receber valor e podem ser clicados", () => {
+        const options = document.querySelectorAll("#options .option-btn");
+        let clicked = false;
 
-    function cleanStopWords(text) {
-      return text.split(' ').filter(w => !stopWords.includes(w)).join(' ');
-    }
+        options.forEach(btn => {
+            btn.addEventListener("click", () => clicked = true);
+            btn.click();
+            if (!clicked) throw new Error("Evento de clique no botão de opção não disparou");
+            clicked = false; // reset pra próximo botão
+        });
+    });
 
-    const cleanedUser = cleanStopWords(normalizedUser);
-    const cleanedCorrect = cleanStopWords(normalizedCorrect);
+    testar("COMPONENT - Botão Confirmar inicia desabilitado", () => {
+        const actionButton = document.getElementById("actionButton");
+        if (!actionButton) throw new Error("Botão Confirmar não encontrado");
+        if (!actionButton.disabled) throw new Error("Botão Confirmar deveria iniciar desabilitado");
+    });
 
-    if (cleanedUser.includes(cleanedCorrect) || cleanedCorrect.includes(cleanedUser)) {
-      return true;
-    }
-
-    if (question.toLowerCase().includes("velocidade da luz")) {
-      const numUser = parseFloat(normalizedUser.replace(/[^\d\.]/g, ''));
-      const numCorrect = parseFloat(normalizedCorrect.replace(/[^\d\.]/g, ''));
-      if (!isNaN(numUser) && !isNaN(numCorrect)) {
-        return Math.abs(numUser - numCorrect) < 1000;
-      }
-    }
-
-    return false;
-  };
-
-  QuizSimulator.prototype.confirmAnswer = function (userAnswer) {
-    if (!this.awaitingConfirmation) return null;
-
-    const q = this.questions[this.currentIndex];
-    const isCorrect = this.isAnswerClose(userAnswer, q.answer, q.question);
-    if (isCorrect) this.score++;
-    this.awaitingConfirmation = false;
-    return isCorrect;
-  };
-
-  QuizSimulator.prototype.nextQuestion = function () {
-    if (this.awaitingConfirmation) return false; // retorne false quando não confirmado
-    if (this.currentIndex + 1 >= this.questions.length) return false; // não avança além do limite
-    this.currentIndex++;
-    this.awaitingConfirmation = true;
-    return true;
-  };
-
-  QuizSimulator.prototype.getScoreBase10 = function () {
-    return parseFloat(((this.score / this.questions.length) * 10).toFixed(2));
-  };
-
-  QuizSimulator.prototype.reset = function () {
-    this.currentIndex = 0;
-    this.score = 0;
-    this.awaitingConfirmation = true;
-  };
-
-  // Testes de componente
-  const componentTests = {
-    'Confirmar resposta correta incrementa score': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }]);
-      const result = quiz.confirmAnswer("resp");
-      return assertTrue(result, "resposta correta retorna true") && assertEqual(quiz.score, 1, "score incrementado");
-    },
-
-    'Confirmar resposta incorreta não incrementa score': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }]);
-      const result = quiz.confirmAnswer("errado");
-      return assertFalse(result, "resposta incorreta retorna false") && assertEqual(quiz.score, 0, "score não incrementado");
-    },
-
-    'Não permite avançar se resposta não confirmada': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }]);
-      const advanced = quiz.nextQuestion();
-      return assertFalse(advanced, "não avança sem confirmação");
-    },
-
-    'Avança para próxima pergunta após confirmação': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }, { question: "Q2", answer: "resp2" }]);
-      quiz.confirmAnswer("resp");
-      const advanced = quiz.nextQuestion();
-      return assertTrue(advanced, "avançou para próxima pergunta") && assertEqual(quiz.currentIndex, 1, "index incrementado");
-    },
-
-    'Retorna false ao avançar depois da última pergunta': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }]);
-      quiz.confirmAnswer("resp");
-      quiz.nextQuestion();
-      const advanced = quiz.nextQuestion();
-      return assertFalse(advanced, "não avança além do limite");
-    },
-
-    'getScoreBase10 retorna pontuação correta arredondada': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }, { question: "Q2", answer: "resp2" }]);
-      quiz.score = 1;
-      return assertEqual(quiz.getScoreBase10(), 5.00, "pontuação base 10 correta");
-    },
-
-    'reset zera estado do quiz': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }]);
-      quiz.confirmAnswer("resp");
-      quiz.nextQuestion();
-      quiz.reset();
-      return assertEqual(quiz.currentIndex, 0, "index resetado") && assertEqual(quiz.score, 0, "score resetado") && assertTrue(quiz.awaitingConfirmation, "awaitingConfirmation resetado");
-    },
-
-    'isAnswerClose aceita variações': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "Oceano Pacífico" }]);
-      return assertTrue(quiz.isAnswerClose("pacifico", "Oceano Pacífico", "Q1"), "aceita pacifico");
-    },
-
-    'isAnswerClose rejeita respostas curtas': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "Everest" }]);
-      return assertFalse(quiz.isAnswerClose("a", "Everest", "Q1"), "rejeita respostas curtas");
-    },
-
-    'confirmAnswer só pode confirmar uma vez por pergunta': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }]);
-      quiz.confirmAnswer("resp");
-      const secondConfirm = quiz.confirmAnswer("resp");
-      return assertEqual(secondConfirm, null, "não permite confirmar novamente");
-    },
-
-    'nextQuestion só avança se resposta confirmada': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "resp" }, { question: "Q2", answer: "resp2" }]);
-      const advancedBefore = quiz.nextQuestion();
-      quiz.confirmAnswer("resp");
-      const advancedAfter = quiz.nextQuestion();
-      return assertFalse(advancedBefore, "não avança antes da confirmação") && assertTrue(advancedAfter, "avança depois da confirmação");
-    },
-
-    'pontuação correta para múltiplas perguntas': () => {
-      const quiz = new QuizSimulator([
-        { question: "Q1", answer: "a" },
-        { question: "Q2", answer: "b" },
-        { question: "Q3", answer: "c" }
-      ]);
-      quiz.confirmAnswer("a"); quiz.nextQuestion();
-      quiz.confirmAnswer("errado"); quiz.nextQuestion();
-      quiz.confirmAnswer("c");
-      return assertEqual(quiz.score, 2, "score calculado corretamente");
-    },
-
-    'não avança após última pergunta': () => {
-      const quiz = new QuizSimulator([{ question: "Q1", answer: "a" }]);
-      quiz.confirmAnswer("a");
-      const advance1 = quiz.nextQuestion();
-      const advance2 = quiz.nextQuestion();
-      return assertFalse(advance1, "não avança além do fim") && assertFalse(advance2, "não avança após o fim");
-    },
-  };
-
-  global.componentTests = componentTests;
-
-  global.runComponentTests = () => {
-    console.log("Executando Testes de Componentes...\n");
-    global.TestLib.runTests(componentTests);
-  };
-
-})(this);
+    testar("COMPONENT - Feedback inicia vazio", () => {
+        const feedback = document.getElementById("feedback");
+        if (!feedback) throw new Error("Elemento feedback não encontrado");
+        if (feedback.textContent.trim() !== "") throw new Error("Feedback deveria iniciar vazio");
+    });
+}
