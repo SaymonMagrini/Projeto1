@@ -355,4 +355,4 @@ function showResult() {
 }
 
 // Inicia o quiz automaticamente ao carregar a página
-startQuiz();
+//startQuiz();//
