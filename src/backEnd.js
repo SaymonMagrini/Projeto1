@@ -287,6 +287,7 @@ const optionsContainer = document.getElementById('optionsContainer');
 const nextButton = document.getElementById('nextButton');
 const result = document.getElementById('result');
 const restartButton = document.getElementById('restartButton');
+const mensagemCupom = document.getElementById("mensagemCupom");
 const cuponButton = document.getElementById('cuponButton')
 const cuponTxt = document.getElementById('txtCupom')
 const quizTitle = document.getElementById('quizTitle');
@@ -298,6 +299,7 @@ function startQuiz() {
   quizTitle.textContent = "Quiz Geral"; // título fixo, pois não tem seleção
   result.innerHTML = "";
   restartButton.classList.add('hidden');
+  mensagemCupom.classList.add('hidden');
   nextButton.classList.remove('hidden');
   loadQuestion();
 }
@@ -358,6 +360,7 @@ function showResult() {
   optionsContainer.innerHTML = "";
   nextButton.classList.add('hidden');
   result.innerHTML = `✅ Você acertou <strong>${score}</strong> de <strong>${questoesEmbaralhadas.length}</strong> perguntas.`;
+  mensagemCupom.classList.remove('hidden');
   cuponButton.classList.remove('hidden');
   restartButton.classList.remove('hidden');
 }
