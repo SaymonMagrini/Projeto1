@@ -279,7 +279,6 @@ let questoesEmbaralhadas = shuffleArray(questions).slice(0, 10);
 
 let currentQuestion = 0;
 let score = 0;
-
 const quizContainer = document.getElementById('quizContainer');
 const questionText = document.getElementById('questionText');
 const questionCount = document.getElementById('questionCount');
@@ -299,6 +298,8 @@ function startQuiz() {
   result.innerHTML = "";
   restartButton.classList.add('hidden');
   nextButton.classList.remove('hidden');
+  cuponButton.classList.add('hidden');
+  cuponTxt.classList.add('hidden');
   loadQuestion();
 }
 
