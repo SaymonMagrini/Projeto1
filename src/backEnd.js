@@ -61,7 +61,7 @@ const questions = [
   },
   {
     question: "Quando a biblioteca aparece no livro A Biblioteca da Meia Noite?",
-    options: ["A) Ao dormir", "B) Ao ser atropelada", "C) Após suicídio", "D) Ao ser assassinada"],
+    options: ["A) Após Nora dormir", "B) Após Nora ser atropelada", "C) Após Nora cometer suicídio", "D) Após Nora ser assassinada"],
     correct: 2
   },
   {
@@ -91,7 +91,7 @@ const questions = [
   },
   {
     question: "Temas abordados no livro É Assim que Acaba?",
-    options: ["A) Política", "B) História", "C) Violência doméstica", "D) Carreira"],
+    options: ["A) Política e corrupção", "B) História e religião", "C) Violência doméstica e abuso", "D) Carreira e autocuidado"],
     correct: 2
   },
   {
