@@ -5,22 +5,22 @@ const questions = [
     correct: 0
   },
   {
-    question: "Quem é chamada de ‘A Mãe dos Dragões’, no livro Crônicas de Gelo e Fogo?",
+    question: "Quem é chamada de ‘A Mãe dos Dragões’ no livro Crônicas de Gelo e Fogo?",
     options: ["A) John Snow", "B) Daenerys Targaryen", "C) Tyrion Lannister", "D) Arya Stark"],
     correct: 1
   },
   {
-    question: "Qual é o nome do trono disputado, no livro Crônicas de Gelo e Fogo?",
+    question: "Qual é o nome do trono disputado no livro Crônicas de Gelo e Fogo?",
     options: ["A) Trono de Ferro", "B) Trono dos 7 Reinos", "C) Trono Real", "D) Trono das Lamentações"],
     correct: 0
   },
   {
-    question: "Como são chamados os dragões de Daenerys, no livro Crônicas de Gelo e Fogo?",
+    question: "Como são chamados os dragões de Daenerys no livro Crônicas de Gelo e Fogo?",
     options: ["A) Drogon, Balerion e Viserion", "B) Vhagar, Rhaegal e Viserion", "C) Rhaegal e Syrax; Drogon", "D) Drogon, Rhaegal e Viserion"],
     correct: 3
   },
   {
-    question: "Qual a família que governa Winterfell, no livro Crônicas de Gelo e Fogo?",
+    question: "Qual a família que governa Winterfell no livro Crônicas de Gelo e Fogo?",
     options: ["A) Lannister", "B) Targaryen", "C) Stark", "D) Tully"],
     correct: 2
   },
@@ -55,22 +55,22 @@ const questions = [
     correct: 1
   },
   {
-    question: "Qual é o nome da protagonista, do livro A Biblioteca da Meia Noite?",
+    question: "Qual é o nome da protagonista do livro A Biblioteca da Meia Noite?",
     options: ["A) Nora Seed", "B) Srª Elm", "C) Joe Seed", "D) Dan"],
     correct: 0
   },
   {
-    question: "Quando a biblioteca aparece, no livro A Biblioteca da Meia Noite?",
-    options: ["A) Ao dormir", "B) Ao ser atropelada", "C) Após suicídio", "D) Ao ser assassinada"],
+    question: "Quando a biblioteca aparece no livro A Biblioteca da Meia Noite?",
+    options: ["A) Após Nora dormir", "B) Após Nora ser atropelada", "C) Após Nora cometer suicídio", "D) Após Nora ser assassinada"],
     correct: 2
   },
   {
-    question: "Temas do livro A Biblioteca da Meia Noite?",
+    question: "Quais são os temas do livro A Biblioteca da Meia Noite?",
     options: ["A) Morte, saúde mental, filosofia", "B) Romance, viagens", "C) Moda e beleza", "D) Mistério e espionagem"],
     correct: 0
   },
   {
-    question: "Quem orienta Nora Seed, no livro A Biblioteca da Meia Noite?",
+    question: "Quem orienta Nora Seed no livro A Biblioteca da Meia Noite?",
     options: ["A) Dan", "B) Volts", "C) Ash", "D) Srª Elm"],
     correct: 3
   },
@@ -80,22 +80,22 @@ const questions = [
     correct: 0
   },
   {
-    question: "Quem é Lily Bloom na história, do livro É Assim que Acaba?",
+    question: "Quem é Lily Bloom na história do livro É Assim que Acaba?",
     options: ["A) A melhor amiga", "B) A irmã", "C) A protagonista", "D) A mãe"],
     correct: 2
   },
   {
-    question: "Profissão de Ryle, no livro É Assim que Acaba?",
+    question: "Qual é a profissão de Ryle no livro É Assim que Acaba?",
     options: ["A) Psicólogo", "B) Neurocirurgião", "C) Engenheiro", "D) Professor"],
     correct: 1
   },
   {
-    question: "Temas abordados, no livro É Assim que Acaba?",
-    options: ["A) Política", "B) História", "C) Violência doméstica", "D) Carreira"],
+    question: "Temas abordados no livro É Assim que Acaba?",
+    options: ["A) Política e corrupção", "B) História e religião", "C) Violência doméstica e abuso", "D) Carreira e autocuidado"],
     correct: 2
   },
   {
-    question: "Significado do título, do livro 'É Assim que Acaba'?",
+    question: "Significado do título do livro 'É Assim que Acaba'?",
     options: ["A) Rompimento de amizade", "B) Interrupção do ciclo de abuso", "C) Descoberta pessoal", "D) Superação paterna"],
     correct: 1
   },
@@ -185,12 +185,12 @@ const questions = [
     correct: 0
   },
   {
-    question: "Que conceito político é mais associado a Maquiavel, no livro O Príncipe?",
+    question: "Que conceito político é mais associado a Maquiavel no livro O Príncipe?",
     options: ["A) Anarquismo político", "B) Liberalismo econômico", "C) Democracia direta", "D) Realismo político"],
     correct: 3
   },
   {
-    question: "Qual a visão do autor sobre manter o poder, no livro O Príncipe?",
+    question: "Qual a visão do autor sobre manter o poder no livro O Príncipe?",
     options: ["A) Defende que o governante deve usar todos os meios necessários, éticos ou não", "B) O governante deve sempre agir com bondade e seguir a Igreja", "C) O poder deve ser compartilhado igualmente entre todos os cidadãos", "D) Manter o poder depende exclusivamente da sorte e da vontade divina"],
     correct: 0
   },
@@ -279,7 +279,6 @@ let questoesEmbaralhadas = shuffleArray(questions).slice(0, 10);
 
 let currentQuestion = 0;
 let score = 0;
-
 const quizContainer = document.getElementById('quizContainer');
 const questionText = document.getElementById('questionText');
 const questionCount = document.getElementById('questionCount');
@@ -301,6 +300,8 @@ function startQuiz() {
   restartButton.classList.add('hidden');
   mensagemCupom.classList.add('hidden');
   nextButton.classList.remove('hidden');
+  cuponButton.classList.add('hidden');
+  cuponTxt.classList.add('hidden');
   loadQuestion();
 }
 
@@ -366,4 +367,4 @@ function showResult() {
 }
 
 // Inicia o quiz automaticamente ao carregar a página
-startQuiz();
+//startQuiz();//
