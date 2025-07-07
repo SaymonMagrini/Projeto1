@@ -1,3 +1,22 @@
+//carregar src/questões.json
+function carregarQuestoes() {
+  fetch('src/questões.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro ao carregar: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      questions = data;
+      questoesEmbaralhadas = shuffleArray(questions).slice(0, 10);
+      startQuiz();
+    })
+    .catch(error => {
+      console.error('Erro ao carregar as questões:', error);
+      quizContainer.innerHTML = `<p style="color:red;">Erro ao carregar o quiz. Tente novamente mais tarde.</p>`;
+    });
+}
 
 // Função para embaralhar
 function shuffleArray(arr) {
