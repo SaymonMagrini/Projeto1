@@ -18,7 +18,7 @@ function gerarCupom() {
   }
 
   const desconto = Math.min(score * 5, 50); // Usa a variável global score
-  const cupom = codigo+desconto ;
+  const cupom = codigo + desconto;
 
   return cupom;
 }
@@ -35,11 +35,11 @@ const optionsContainer = document.getElementById('optionsContainer');
 const nextButton = document.getElementById('nextButton');
 const result = document.getElementById('result');
 const restartButton = document.getElementById('restartButton');
-const cuponButton = document.getElementById('cuponButton')
 const cuponTxt = document.getElementById('txtCupom')
 const quizTitle = document.getElementById('quizTitle');
 
 function startQuiz() {
+
   currentQuestion = 0;
   score = 0;
   quizContainer.classList.remove('hidden');
@@ -47,6 +47,8 @@ function startQuiz() {
   result.innerHTML = "";
   restartButton.classList.add('hidden');
   nextButton.classList.remove('hidden');
+    cuponTxt.classList.add('hidden')
+
   loadQuestion();
 }
 
@@ -94,19 +96,18 @@ nextButton.onclick = () => {
 restartButton.onclick = () => {
   startQuiz();
 };
-cuponButton.onclick = () => {
-  cuponTxt.innerHTML = `O seu código de cupom é: <strong>${gerarCupom()} </strong>`;
-  cuponTxt.classList.remove('hidden')
-}
+
 
 
 function showResult() {
+  gerarCupom()
+  cuponTxt.innerHTML = `<strong>CUPOM: ${gerarCupom()} </strong>`;
+  cuponTxt.classList.remove('hidden')
   questionText.textContent = "Você completou o quiz!";
   questionCount.textContent = "";
   optionsContainer.innerHTML = "";
   nextButton.classList.add('hidden');
   result.innerHTML = `✅ Você acertou <strong>${score}</strong> de <strong>${questoesEmbaralhadas.length}</strong> perguntas.`;
-  cuponButton.classList.remove('hidden');
   restartButton.classList.remove('hidden');
 }
 
