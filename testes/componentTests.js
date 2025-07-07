@@ -14,7 +14,6 @@ function runComponentTests() {
         }
     }
 
-
     const startButton = document.getElementById('startButton');
     const startContainer = document.getElementById('startContainer');
     const quizContainer = document.getElementById('quizContainer');
@@ -24,26 +23,23 @@ function runComponentTests() {
     const txtCupom = document.getElementById('txtCupom');
     const result = document.getElementById('result');
 
-
     assertEquals(startContainer.classList.contains('hidden'), false, "Tela inicial visível no começo");
+    assertEquals(startButton.classList.contains('hidden'), false, "Botão iniciar visível no começo");
     assertEquals(quizContainer.classList.contains('hidden'), true, "Quiz oculto no começo");
     assertEquals(cuponButton.classList.contains('hidden'), true, "Botão cupom oculto no começo");
     assertEquals(restartButton.classList.contains('hidden'), true, "Botão reiniciar oculto no começo");
     assertEquals(txtCupom.classList.contains('hidden'), true, "Texto do cupom oculto no começo");
     assertEquals(result.textContent.trim(), '', "Área de resultado vazia no começo");
 
-
     startButton.click();
 
-
     assertEquals(startContainer.classList.contains('hidden'), true, "Tela inicial oculta após iniciar");
+    assertEquals(startButton.classList.contains('hidden'), false, "Botão iniciar permanece visível após iniciar");
     assertEquals(quizContainer.classList.contains('hidden'), false, "Quiz visível após iniciar");
-
 
     assertEquals(cuponButton.classList.contains('hidden'), true, "Botão cupom oculto após iniciar");
     assertEquals(restartButton.classList.contains('hidden'), true, "Botão reiniciar oculto após iniciar");
     assertEquals(txtCupom.classList.contains('hidden'), true, "Texto do cupom oculto após iniciar");
-
 
     cuponButton.classList.remove('hidden');
     restartButton.classList.remove('hidden');
@@ -53,9 +49,7 @@ function runComponentTests() {
     assertEquals(restartButton.classList.contains('hidden'), false, "Botão reiniciar visível no fim do quiz");
     assertEquals(txtCupom.classList.contains('hidden'), false, "Texto do cupom visível no fim do quiz");
 
-
     restartButton.click();
-
 
     startContainer.classList.remove('hidden');
     quizContainer.classList.add('hidden');
@@ -65,6 +59,7 @@ function runComponentTests() {
     result.textContent = '';
 
     assertEquals(startContainer.classList.contains('hidden'), false, "Tela inicial visível após reiniciar");
+    assertEquals(startButton.classList.contains('hidden'), false, "Botão iniciar visível após reiniciar");
     assertEquals(quizContainer.classList.contains('hidden'), true, "Quiz oculto após reiniciar");
     assertEquals(cuponButton.classList.contains('hidden'), true, "Botão cupom oculto após reiniciar");
     assertEquals(restartButton.classList.contains('hidden'), true, "Botão reiniciar oculto após reiniciar");
