@@ -1,40 +1,75 @@
 function runComponentTests() {
-    console.log("Iniciando testes de componentes...");
+    console.log("Iniciando testes de componente...");
 
     let passed = 0;
     let failed = 0;
 
-    function assertElementExists(selector, description) {
-        const element = document.querySelector(selector);
-        if (element) {
-            console.log(`✅ ${description}`);
+    function assertEquals(actual, expected, testName) {
+        if (actual === expected) {
+            console.log(`✅ ${testName}`);
             passed++;
         } else {
-            console.error(`❌ ${description} - Elemento '${selector}' não encontrado`);
+            console.error(`❌ ${testName} - Esperado: ${expected}, Recebido: ${actual}`);
             failed++;
         }
     }
 
-    function assertElementText(selector, expectedText, description) {
-        const element = document.querySelector(selector);
-        if (element && element.textContent.includes(expectedText)) {
-            console.log(`✅ ${description}`);
-            passed++;
-        } else {
-            console.error(`❌ ${description} - Esperado texto "${expectedText}" em '${selector}'`);
-            failed++;
-        }
-    }
 
-    // Testes de componentes
-    assertElementExists(".app", "Container principal .app existe");
-    assertElementExists("#quizContainer", "Container do quiz existe");
-    assertElementExists("#questionText", "Texto da pergunta está presente");
-    assertElementExists("#optionsContainer", "Container de opções existe");
-    assertElementExists("#nextButton", "Botão de próxima pergunta existe");
-    assertElementExists("#restartButton", "Botão de reinício do quiz existe");
+    const startButton = document.getElementById('startButton');
+    const startContainer = document.getElementById('startContainer');
+    const quizContainer = document.getElementById('quizContainer');
+    const nextButton = document.getElementById('nextButton');
+    const cuponButton = document.getElementById('cuponButton');
+    const restartButton = document.getElementById('restartButton');
+    const txtCupom = document.getElementById('txtCupom');
+    const result = document.getElementById('result');
 
-    assertElementText("h1", "Quiz SEBO", "Título principal contém 'Quiz SEBO'");
 
-    console.log(`Testes de componentes concluídos. ✅ ${passed}, ❌ ${failed}`);
+    assertEquals(startContainer.classList.contains('hidden'), false, "Tela inicial visível no começo");
+    assertEquals(quizContainer.classList.contains('hidden'), true, "Quiz oculto no começo");
+    assertEquals(cuponButton.classList.contains('hidden'), true, "Botão cupom oculto no começo");
+    assertEquals(restartButton.classList.contains('hidden'), true, "Botão reiniciar oculto no começo");
+    assertEquals(txtCupom.classList.contains('hidden'), true, "Texto do cupom oculto no começo");
+    assertEquals(result.textContent.trim(), '', "Área de resultado vazia no começo");
+
+
+    startButton.click();
+
+
+    assertEquals(startContainer.classList.contains('hidden'), true, "Tela inicial oculta após iniciar");
+    assertEquals(quizContainer.classList.contains('hidden'), false, "Quiz visível após iniciar");
+
+
+    assertEquals(cuponButton.classList.contains('hidden'), true, "Botão cupom oculto após iniciar");
+    assertEquals(restartButton.classList.contains('hidden'), true, "Botão reiniciar oculto após iniciar");
+    assertEquals(txtCupom.classList.contains('hidden'), true, "Texto do cupom oculto após iniciar");
+
+
+    cuponButton.classList.remove('hidden');
+    restartButton.classList.remove('hidden');
+    txtCupom.classList.remove('hidden');
+
+    assertEquals(cuponButton.classList.contains('hidden'), false, "Botão cupom visível no fim do quiz");
+    assertEquals(restartButton.classList.contains('hidden'), false, "Botão reiniciar visível no fim do quiz");
+    assertEquals(txtCupom.classList.contains('hidden'), false, "Texto do cupom visível no fim do quiz");
+
+
+    restartButton.click();
+
+
+    startContainer.classList.remove('hidden');
+    quizContainer.classList.add('hidden');
+    cuponButton.classList.add('hidden');
+    restartButton.classList.add('hidden');
+    txtCupom.classList.add('hidden');
+    result.textContent = '';
+
+    assertEquals(startContainer.classList.contains('hidden'), false, "Tela inicial visível após reiniciar");
+    assertEquals(quizContainer.classList.contains('hidden'), true, "Quiz oculto após reiniciar");
+    assertEquals(cuponButton.classList.contains('hidden'), true, "Botão cupom oculto após reiniciar");
+    assertEquals(restartButton.classList.contains('hidden'), true, "Botão reiniciar oculto após reiniciar");
+    assertEquals(txtCupom.classList.contains('hidden'), true, "Texto do cupom oculto após reiniciar");
+    assertEquals(result.textContent, '', "Área de resultado vazia após reiniciar");
+
+    console.log(`Testes de componente concluídos ✅ ${passed}, ❌ ${failed}`);
 }
