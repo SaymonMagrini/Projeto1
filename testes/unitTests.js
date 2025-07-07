@@ -38,25 +38,31 @@ function runUnitTests() {
         return currentIndex >= totalQuestions;
     }
 
-    // ====== Execução dos Testes ======
 
     assertEquals(isCorrectAnswer("A", "A"), true, "Resposta correta retorna true");
     assertEquals(isCorrectAnswer("B", "A"), false, "Resposta incorreta retorna false");
 
-    assertEquals(getNextQuestionIndex(0, 5), 1, "Próxima pergunta está correta");
-    assertEquals(getNextQuestionIndex(4, 5), -1, "Fim das perguntas retorna -1");
+    assertEquals(getNextQuestionIndex(0, 5), 1, "Próxima pergunta correta");
+    assertEquals(getNextQuestionIndex(4, 5), -1, "Fim do quiz: retorna -1");
 
-    assertEquals(calculateScore(0, true), 1, "Acertou: adiciona 1 ponto");
-    assertEquals(calculateScore(1, false), 1, "Errou: mantém pontuação");
+    assertEquals(calculateScore(0, true), 1, "Acertou: soma ponto");
+    assertEquals(calculateScore(2, false), 2, "Errou: mantém pontuação");
 
     const reset = restartQuizState();
-    assertEquals(reset.currentQuestion, 0, "Reinício: pergunta = 0");
-    assertEquals(reset.score, 0, "Reinício: pontuação = 0");
-    assertEquals(reset.finished, false, "Reinício: finished = false");
+    assertEquals(reset.currentQuestion, 0, "Reset: currentQuestion = 0");
+    assertEquals(reset.score, 0, "Reset: score = 0");
+    assertEquals(reset.finished, false, "Reset: finished = false");
 
-    // Teste 5: Fim do quiz
-    assertEquals(isQuizFinished(5, 5), true, "Quiz finalizado quando índice = total");
-    assertEquals(isQuizFinished(4, 5), false, "Quiz não finalizado antes do fim");
+    assertEquals(isQuizFinished(5, 5), true, "Quiz finalizado (igual)");
+    assertEquals(isQuizFinished(6, 5), true, "Quiz finalizado (acima)");
+    assertEquals(isQuizFinished(4, 5), false, "Quiz ainda em andamento");
 
-    console.log(`Testes unitários concluídos. ✅ ${passed}, ❌ ${failed}`);
+    assertEquals(calculateScore(3, true), 4, "Pontuação acumulada funciona");
+    assertEquals(getNextQuestionIndex(10, 5), -1, "Proteção: índice maior que total");
+
+    assertEquals(isCorrectAnswer("", "A"), false, "Resposta vazia = incorreta");
+    assertEquals(isCorrectAnswer(null, "B"), false, "Resposta null = incorreta");
+    assertEquals(isCorrectAnswer("C", ""), false, "Resposta correta vazia = false");
+
+    console.log(`Testes unitários concluídos ✅ ${passed}, ❌ ${failed}`);
 }

@@ -123,6 +123,7 @@
             cursor: pointer;
             margin-top: 10px;
         }
+        
         .generate-cupon-button {
             width: 100%;
             padding: 12px;
@@ -134,14 +135,16 @@
             cursor: pointer;
             margin-top: 10px;
         }
-
+        
         .next-button:hover,
         .restart-button:hover {
             background-color: #3da324;
         }
+        
         .generate-cupon-button:hover {
             background-color: #2469a3;
         }
+        
         .hidden {
             display: none;
         }
@@ -161,14 +164,14 @@
             text-align: center;
             margin-top: 20px;
         }
-
         /* ======= TELA INICIAL ANTES DO QUIZ ======= */
+        
         .start-container {
             text-align: center;
             color: #fff;
             margin-bottom: 20px;
         }
-
+        
         .start-button {
             background-color: #c29148;
             color: white;
@@ -178,9 +181,9 @@
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-             transition: 0.3s;
+            transition: 0.3s;
         }
-
+        
         .start-button:hover {
             background-color: #3da324;
         }
@@ -189,9 +192,9 @@
 
 <body>
     <div class="start-container" id="startContainer">
-      <h2>Bem-vindo ao Quiz do SEBO!</h2>
-      <p>Responda o QUIZ para ganhar uma promoção especial!</p>
-      <button class="start-button" id="startButton">Iniciar Quiz</button>
+        <h2>Bem-vindo ao Quiz do SEBO!</h2>
+        <p>Responda o QUIZ para ganhar uma promoção especial!</p>
+        <button class="start-button" id="startButton">Iniciar Quiz</button>
     </div>
     <div class="app">
         <h1>Quiz SEBO</h1>
@@ -208,7 +211,7 @@
             <button class="next-button" id="nextButton" disabled>Próxima Pergunta</button>
             <div class="result" id="result"></div>
             <button class="generate-cupon-button hidden" id="cuponButton">Gerar seu cupom</button>
-            <div class="cupon-text hidden" id=txtCupom></div> 
+            <div class="cupon-text hidden" id=txtCupom></div>
             <button class="restart-button hidden" id="restartButton">Reiniciar Quiz</button>
 
         </div>
@@ -222,20 +225,20 @@
     <script src="testes/componentTests.js">
     </script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-      const startButton = document.getElementById('startButton');
-      const startContainer = document.getElementById('startContainer');
-      const quizContainer = document.getElementById('quizContainer');
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.getElementById('startButton');
+            const startContainer = document.getElementById('startContainer');
+            const quizContainer = document.getElementById('quizContainer');
 
-      startButton.addEventListener('click', () => {
-          startContainer.classList.add('hidden')
-          quizContainer.classList.remove('hidden')
+            startButton.addEventListener('click', () => {
+                startContainer.classList.add('hidden')
+                quizContainer.classList.remove('hidden')
 
-          if (typeof startQuiz === "function") {
-              startQuiz()
-          }
-    });
-  })
+                if (typeof startQuiz === "function") {
+                    startQuiz()
+                }
+            });
+        })
     </script>
 </body>
 
