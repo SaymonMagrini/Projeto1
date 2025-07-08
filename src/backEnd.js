@@ -1,6 +1,6 @@
 //carregar src/questões.json
 function carregarQuestoes() {
-  fetch('src/questões.json')
+  fetch('src/questions.json')
     .then(response => {
       if (!response.ok) {
         throw new Error(`Erro ao carregar: ${response.status}`);
