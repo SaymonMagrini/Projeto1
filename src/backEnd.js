@@ -18,7 +18,6 @@ function carregarQuestoes() {
       quizContainer.innerHTML = `<p style="color:red;">Erro ao carregar o quiz. Tente novamente mais tarde.</p>`;
     });
 }
-carregarQuestoes()
 // Função para embaralhar
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -131,5 +130,4 @@ function showResult() {
   restartButton.classList.remove('hidden');
 }
 
-// Inicia o quiz automaticamente ao carregar a página
-//startQuiz();
+carregarQuestoes()
