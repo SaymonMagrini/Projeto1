@@ -17,22 +17,26 @@
 
         body {
             background: linear-gradient(135deg, #a78a49, #2b2d44);
-            color: #fff;
+            background-image: url('fundo-biblioteca.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 20px;
         }
         
         .app {
-            background-color: #7a4b4b10;
+            background-color: #fcf9f910;
             border-radius: 20px;
             padding: 30px;
             max-width: 500px;
             width: 100%;
             box-shadow: 0 10px 20px rgba(29, 28, 28, 0.25);
             backdrop-filter: blur(10px);
+            color: #ffffff;
         }
 
         h1 {
@@ -239,11 +243,13 @@
     </script>
     <script src="testes/componentTests.js">
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const startButton = document.getElementById('startButton');
             const startContainer = document.getElementById('startContainer');
             const quizContainer = document.getElementById('quizContainer');
+            document.body.style.backgroundImage = "url('fundo-biblioteca.jpg')";
 
             startButton.addEventListener('click', () => {
                 startContainer.classList.add('hidden')
