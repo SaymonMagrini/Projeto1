@@ -1,4 +1,5 @@
 //carregar src/questões.json
+let questões = ""
 function carregarQuestoes() {
   fetch('src/questions.json')
     .then(response => {
