@@ -11,7 +11,6 @@ function carregarQuestoes() {
     .then(data => {
       questions = data;
       questoesEmbaralhadas = shuffleArray(questions).slice(0, 10);
-      startQuiz();
     })
     .catch(error => {
       console.error('Erro ao carregar as questões:', error);
