@@ -66,7 +66,7 @@ function startQuiz() {
   result.innerHTML = "";
   restartButton.classList.add('hidden');
   nextButton.classList.remove('hidden');
-    cuponTxt.classList.add('hidden')
+  cuponTxt.classList.add('hidden')
 
   loadQuestion();
 }
