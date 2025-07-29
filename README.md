@@ -1,0 +1,2 @@
+Este projeto é um simples quiz com intenção de implementação para descontos, atualmente aplicado para livraria, mas com flexibilidade para reaplicação em outras áreas com simples mudanças de front e da base de questões.
+O mesmo tem 2 versões, a principal (main) sendo rodável localmente em praticamente qualquer navegador web executando o index.html e a versão para servidores (server), com base de dados em json, funcionando apenas quando executado em servidor web.
